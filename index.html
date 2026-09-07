@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyhole — Plain-language privacy for people who aren't security experts</title>
+<meta name="description" content="Free, no-nonsense steps to lock down your phone and accounts. No spyware, no upsells, no jargon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEFEC;
+    --paper-raised:#E2E5DE;
+    --ink:#14201F;
+    --ink-soft:#4A5450;
+    --brass:#B8912B;
+    --brass-deep:#8F701E;
+    --alert:#C1462F;
+    --line:#CBCFC6;
+    --max:1120px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    line-height:1.1;
+    margin:0;
+  }
+  a{ color:var(--brass-deep); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--brass-deep); outline-offset:3px; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+  header{ padding:24px 0; border-bottom:1px solid var(--line); }
+  .header-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:1.25rem; }
+  .logo-mark{ width:22px; height:22px; }
+  nav{ display:flex; gap:26px; font-size:0.92rem; }
+  nav a{ color:var(--ink); }
+  nav a:hover{ color:var(--brass-deep); text-decoration:none; }
+
+  .hero{ padding:70px 0 64px; border-bottom:1px solid var(--line); }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
+  .hero h1{ font-size:clamp(2.2rem, 4vw, 3.3rem); max-width:15ch; letter-spacing:-0.01em; }
+  .hero .lede{ margin-top:20px; font-size:1.12rem; color:var(--ink-soft); max-width:44ch; }
+  .hero-actions{ margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+  .btn{ display:inline-block; padding:13px 24px; font-weight:600; font-size:0.95rem; border-radius:2px; font-family:'IBM Plex Sans', sans-serif; }
+  .btn-solid{ background:var(--ink); color:var(--paper); border:1px solid var(--ink); }
+  .btn-solid:hover{ background:var(--brass-deep); border-color:var(--brass-deep); text-decoration:none; }
+  .btn-note{ font-size:0.85rem; color:var(--ink-soft); }
+
+  .lock-scene{ display:flex; justify-content:center; align-items:center; height:280px; }
+  .lock{ position:relative; width:150px; }
+  .lock-shackle{
+    width:80px; height:80px;
+    border:14px solid var(--ink);
+    border-bottom:none;
+    border-radius:80px 80px 0 0;
+    margin:0 auto;
+  }
+  .lock-body{
+    width:150px; height:110px;
+    background:var(--brass);
+    border-radius:8px;
+    margin-top:-4px;
+    position:relative;
+    box-shadow:0 10px 0 rgba(20,32,31,0.06);
+  }
+  .lock-keyhole{
+    position:absolute; top:32px; left:50%; transform:translateX(-50%);
+    width:18px; height:18px; background:var(--ink); border-radius:50%;
+  }
+  .lock-keyhole::after{
+    content:''; position:absolute; top:14px; left:6px;
+    width:6px; height:20px; background:var(--ink);
+    clip-path:polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+  }
+
+  .section{ padding:60px 0; }
+  .section-head{ max-width:60ch; margin-bottom:40px; }
+  .section-head h2{ font-size:1.7rem; }
+  .section-head p{ margin-top:12px; color:var(--ink-soft); }
+
+  .checklist{ border-top:1px solid var(--line); }
+  .check-item{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:24px;
+    align-items:center;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .check-status{
+    font-size:0.75rem;
+    font-weight:600;
+    padding:5px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .status-risk{ background:rgba(193,70,47,0.12); color:var(--alert); }
+  .status-ok{ background:rgba(184,145,43,0.14); color:var(--brass-deep); }
+  .check-body h3{ font-size:1.15rem; font-weight:600; font-family:'IBM Plex Sans', sans-serif; }
+  .check-body p{ margin:6px 0 0; color:var(--ink-soft); font-size:0.94rem; max-width:56ch; }
+  .check-item a{ font-size:0.9rem; font-weight:600; white-space:nowrap; }
+
+  .plan-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:0; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+  .plan-step{ padding:30px 28px; background:var(--paper); border-right:1px solid var(--line); }
+  .plan-step:last-child{ border-right:none; }
+  .plan-step .step-time{ font-size:0.8rem; color:var(--brass-deep); font-weight:600; }
+  .plan-step h3{ font-size:1.1rem; margin-top:10px; }
+  .plan-step p{ color:var(--ink-soft); font-size:0.92rem; margin-top:8px; }
+
+  .trust{ background:var(--paper-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:34px 0; }
+  .trust .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.92rem; color:var(--ink-soft); }
+  .trust strong{ color:var(--ink); }
+
+  .subscribe{ background:var(--ink); color:var(--paper); padding:56px 0; }
+  .subscribe .wrap{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
+  .subscribe h2{ color:var(--paper); font-size:1.6rem; max-width:22ch; }
+  .subscribe p{ color:#A9B0AB; margin-top:8px; max-width:40ch; }
+  .sub-form{ display:flex; gap:10px; flex-wrap:wrap; }
+  .sub-form input{
+    padding:12px 16px; border-radius:2px; border:1px solid #3A443F;
+    background:#1E2B29; color:var(--paper); font-family:'IBM Plex Sans', sans-serif; min-width:240px;
+  }
+  .sub-form input::placeholder{ color:#7C877F; }
+  .sub-form button{
+    background:var(--brass); color:var(--ink); border:none; padding:12px 22px;
+    border-radius:2px; font-weight:600; font-family:'IBM Plex Sans', sans-serif; cursor:pointer;
+  }
+  .sub-form button:hover{ background:#CBA43A; }
+
+  footer{ padding:34px 0; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:0.85rem; color:var(--ink-soft); }
+  .footer-links{ display:flex; gap:20px; }
+  .footer-links a{ color:var(--ink-soft); }
+
+  @media (max-width:820px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .lock-scene{ height:200px; }
+    .plan-grid{ grid-template-columns:1fr; }
+    .plan-step{ border-right:none; border-bottom:1px solid var(--line); }
+    .plan-step:last-child{ border-bottom:none; }
+    .check-item{ grid-template-columns:1fr; gap:10px; }
+    nav{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="1.5" fill="#14201F"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#14201F" stroke-width="2.2" fill="none"/><circle cx="12" cy="15" r="1.6" fill="#EDEFEC"/></svg>
+      Keyhole
+    </div>
+    <nav>
+      <a href="#checklist">Your risk check</a>
+      <a href="#plan">10-minute plan</a>
+      <a href="#">Guides</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Your phone is probably leakier than you think. Let's fix the worst of it.</h1>
+      <p class="lede">No app to install, no account to create, no upsell at the end. Just the handful of settings that actually matter, explained without jargon.</p>
+      <div class="hero-actions">
+        <a href="#checklist" class="btn btn-solid">Check my risk</a>
+        <span class="btn-note">Takes about 2 minutes to read.</span>
+      </div>
+    </div>
+    <div class="lock-scene">
+      <div class="lock">
+        <div class="lock-shackle"></div>
+        <div class="lock-body"><div class="lock-keyhole"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="checklist">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Five things worth actually checking</h2>
+      <p>Not a "install our app" pitch — these are settings already sitting on your phone, most people just never open them.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item">
+        <span class="check-status status-risk">Usually on</span>
+        <div class="check-body">
+          <h3>Apps with mic or camera access they don't need</h3>
+          <p>A flashlight app rarely needs your microphone. Most phones list every permission grant in one screen — it's worth a scroll.</p>
+        </div>
+        <a href="#">See how →</a>
+      </div>
+      <div class="check-item">
+        <span class="check-status status-risk">Usually on</span>
+        <div class="check-body">
+          <h3>Ad trackers riding along in free apps</h3>
+          <p>Free apps are often funded by tracking, not ads alone. A DNS-level blocker stops a lot of it without touching each app.</p>
+        </div>
+        <a href="#">See how →</a>
+      </div>
+      <div class="check-item">
+        <span class="check-status status-ok">Quick fix</span>
+        <div class="check-body">
+          <h3>One password reused everywhere</h3>
+          <p>A single breach anywhere becomes a breach everywhere. A free password manager fixes this in under ten minutes.</p>
+        </div>
+        <a href="#">See how →</a>
+      </div>
+      <div class="check-item">
+        <span class="check-status status-risk">Usually off</span>
+        <div class="check-body">
+          <h3>Two-factor authentication on your main email</h3>
+          <p>Your email is the recovery path for almost every other account. It's the one worth protecting first.</p>
+        </div>
+        <a href="#">See how →</a>
+      </div>
+      <div class="check-item">
+        <span class="check-status status-ok">Quick fix</span>
+        <div class="check-body">
+          <h3>Sensitive files sitting in your main photo roll</h3>
+          <p>IDs, screenshots of documents, and financial info often end up mixed in with everything else. A separate, locked folder helps.</p>
+        </div>
+        <a href="#">See how →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="plan">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The 10-minute plan</h2>
+      <p>If you only do three things today, do these, in this order.</p>
+    </div>
+    <div class="plan-grid">
+      <div class="plan-step">
+        <span class="step-time">Minutes 1–3</span>
+        <h3>Turn on 2FA for your main email</h3>
+        <p>This one step limits the damage from almost every other weak point on this list.</p>
+      </div>
+      <div class="plan-step">
+        <span class="step-time">Minutes 4–7</span>
+        <h3>Review app permissions</h3>
+        <p>Revoke camera, mic, and location access from anything that doesn't clearly need it.</p>
+      </div>
+      <div class="plan-step">
+        <span class="step-time">Minutes 8–10</span>
+        <h3>Install a free password manager</h3>
+        <p>Start with your email and banking logins — you can migrate the rest over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="wrap">
+    <div><strong>No spyware.</strong> Every recommendation is a setting or a well-known open-source tool.</div>
+    <div><strong>No account required.</strong> Nothing here asks for your email to read it.</div>
+    <div><strong>Updated regularly.</strong> Guides get revised as apps change their settings.</div>
+  </div>
+</section>
+
+<section class="subscribe">
+  <div class="wrap">
+    <div>
+      <h2>One email when something actually changes.</h2>
+      <p>No weekly filler — just a note when a major app changes its privacy settings.</p>
+    </div>
+    <form class="sub-form" onsubmit="return false;">
+      <input type="email" placeholder="you@example.com" required>
+      <button type="submit">Notify me</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 Keyhole. Independent guides, no sponsorships.</div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
