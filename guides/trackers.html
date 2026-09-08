@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block hidden trackers — Keyhole</title>
+<meta name="description" content="How to stop background tracking from advertisers and data brokers using free, well-known tools.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a class="logo" href="../index.html">
+      <svg class="logo-mark" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="1.5" fill="#14201F"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#14201F" stroke-width="2.2" fill="none"/><circle cx="12" cy="15" r="1.6" fill="#EDEFEC"/></svg>
+      Keyhole
+    </a>
+    <nav>
+      <a href="../index.html#checklist">Your risk check</a>
+      <a href="../index.html#plan">10-minute plan</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap breadcrumb"><a href="../index.html">Home</a> / Block hidden trackers</div>
+
+<section class="guide-header">
+  <div class="wrap">
+    <h1>Block hidden trackers</h1>
+    <div class="guide-meta">
+      <span>⏱ 8 minutes</span>
+      <span>📱 iPhone and Android</span>
+      <span>🔧 One free app install</span>
+    </div>
+    <p class="lede">Free apps are often funded by tracking rather than ads alone. A DNS-level blocker stops most of it in one setting, without touching each app individually.</p>
+  </div>
+</section>
+
+<section class="guide-body">
+  <div class="wrap-narrow">
+
+    <h2>What's actually happening</h2>
+    <p>Many free apps include small pieces of code from advertising and analytics companies. Every time you open the app, that code can quietly report your activity back to a data broker — separate from anything the app itself does.</p>
+
+    <div class="callout"><strong>DNS blocking</strong> works by refusing to connect to known tracker domains at the network level, before the request even leaves your device. It doesn't require touching individual app settings.</div>
+
+    <h2>Setting it up</h2>
+    <ol>
+      <li>Install a reputable free DNS blocker — <strong>NextDNS</strong> and <strong>AdGuard DNS</strong> are widely used, open about their method, and free for personal use</li>
+      <li>On iPhone: <strong>Settings → General → VPN & Device Management → DNS</strong>, and select the provider's configuration</li>
+      <li>On Android: <strong>Settings → Network & Internet → Private DNS</strong>, and enter the provider's hostname</li>
+      <li>Restart your phone once to apply it fully</li>
+    </ol>
+
+    <div class="warning">A DNS blocker won't work while connected to a VPN unless the VPN app specifically supports it — the two features can conflict. Check your VPN's settings if you use one.</div>
+
+    <h2>How to tell it's working</h2>
+    <p>Most tracker-blocking DNS providers offer a dashboard showing blocked requests in real time. After setup, open a few apps you use daily and check the dashboard — you'll typically see dozens of blocked tracker connections within the first few minutes.</p>
+
+    <h2>What this doesn't cover</h2>
+    <ul>
+      <li>Tracking built directly into the app's own servers (not third-party) — DNS blocking only stops external tracker domains</li>
+      <li>Browser-based tracking while using Safari or Chrome — a separate browser extension like uBlock Origin (on desktop) handles that layer</li>
+    </ul>
+
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="guide-nav">
+    <a href="permissions.html">← Previous: App permissions</a>
+    <a href="password-manager.html">Next: Fix reused passwords →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 Keyhole. Independent guides, no sponsorships.</div>
+    <div class="footer-links">
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
+      <a href="../privacy.html">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
